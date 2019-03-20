@@ -14,8 +14,8 @@ You'll clone a sample Spring Boot application from GitHub and then use Maven to 
 The following prerequisites are required in order to follow the steps in this article:
 
 * An Azure subscription. If you don't already have an Azure subscription, you can sign up for a https://azure.microsoft.com/pricing/free-trial/[free Azure account] or activate your https://azure.microsoft.com/pricing/member-offers/msdn-benefits-details/[MSDN subscriber benefits].
-* The http://docs.microsoft.com/cli/azure/overview[Azure Command-Line Interface (CLI)].
-* An up-to-date http://www.oracle.com/technetwork/java/javase/downloads/[Java Development Kit (JDK)], version 1.8 or later.
+* The https://docs.microsoft.com/cli/azure/overview[Azure Command-Line Interface (CLI)].
+* An up-to-date https://www.oracle.com/technetwork/java/javase/downloads/[Java Development Kit (JDK)], version 1.8 or later.
 * A https://github.com/[Git] client.
 
 == Create a sample Spring Boot web app
@@ -46,7 +46,7 @@ Azure should print out a JSON response resembling this:
 {
    "appId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
    "displayName": "uuuuuuuu",
-   "name": "http://uuuuuuuu",
+   "name": "https://uuuuuuuu",
    "password": "pppppppp",
    "tenant": "tttttttt-tttt-tttt-tttt-tttttttttttt"
 }
