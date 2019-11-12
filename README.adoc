@@ -38,7 +38,7 @@ In this section, you will create an https://cmatskas.com/service-principals-in-m
 
 . Open a terminal window.
 . Sign into your Azure account with the Azure CLI by typing `az login`
-. Create an Azure service principal by typing `az ad sp create-for-rbac --name "uuuuuuuu" --password "pppppppp"` (`uuuuuuuu` is the user name and `pppppppp` is the password for the service principal).
+. Create an Azure service principal by typing `az ad sp create-for-rbac --name "uuuuuuuu"` (`uuuuuuuu` is the user name for the service principal).
 +
 Azure should print out a JSON response resembling this:
 +
@@ -46,8 +46,8 @@ Azure should print out a JSON response resembling this:
 {
    "appId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
    "displayName": "uuuuuuuu",
-   "name": "http://uuuuuuuu",
-   "password": "pppppppp",
+   "name": "https://uuuuuuuu",
+   "password": "pppppppp-pppp-pppp-pppp-pppppppppppp",
    "tenant": "tttttttt-tttt-tttt-tttt-tttttttttttt"
 }
 ----
@@ -68,7 +68,7 @@ In this section, you will configure Maven to authenticate using your Azure servi
       <configuration>
          <client>aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa</client>
          <tenant>tttttttt-tttt-tttt-tttt-tttttttttttt</tenant>
-         <key>pppppppp</key>
+         <key>pppppppp-pppp-pppp-pppp-pppppppppppp</key>
          <environment>AZURE</environment>
       </configuration>
    </server>
