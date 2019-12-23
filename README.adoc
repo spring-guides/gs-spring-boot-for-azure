@@ -110,13 +110,11 @@ Confirm (Y/N)? : Y
 +
 . Once you have configured all of the settings in the preceding sections of this article, you are ready to deploy your web app to Azure with `mvn azure-webapp:deploy`. Maven will deploy your web app to Azure; if the web app or web app plan does not already exist, it will be created for you. It might take a few minutes before the web app is accessible at the URL shown in the output. Navigate to the URL in a Web browser. You should see the message displayed: Greetings from Spring Boot!
 
-When your web app has been deployed, visit the https://portal.azure.com/[Azure portal] to manage it. 
-
-IMPORTANT: Don't forget to delete the Azure resources created if no longer needed. 
-
 == Summary
 
-Congratulations! You built and deployed a Spring Boot app to Azure.
+Congratulations! You built and deployed a Spring Boot app to Azure. You can visit the https://portal.azure.com/[Azure portal] to manage it. 
+
+IMPORTANT: Don't forget to delete the Azure resources created if no longer needed. 
 
 == See also
 
