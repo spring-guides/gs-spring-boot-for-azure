@@ -35,7 +35,7 @@ In this section, you will clone an already written Spring Boot application and t
 
 == Config and deploy the app to Azure
 
-. From the terminal window, config your web app with https://github.com/microsoft/azure-maven-plugins/blob/develop/azure-webapp-maven-plugin/README.md/[Maven Plugin for Azure Web App] by typing `./mvnw com.microsoft.azure:azure-webapp-maven-plugin:1.8.0:config`. This mavne goal will first authenticate with Azure, if you have logged in with https://docs.microsoft.com/en-us/cli/azure/[Azure CLI], it will consume its existing authentication token. Otherwise, it will get you logged in with https://github.com/microsoft/azure-maven-plugins/wiki/Azure-Maven-Plugin/[azure-maven-plugin] automatically.
+. From the terminal window, config your web app with https://github.com/microsoft/azure-maven-plugins/blob/develop/azure-webapp-maven-plugin/README.md/[Maven Plugin for Azure Web App] by typing `./mvnw com.microsoft.azure:azure-webapp-maven-plugin:1.8.0:config`. This maven goal will first authenticate with Azure, if you have logged in with https://docs.microsoft.com/en-us/cli/azure/[Azure CLI], it will consume its existing authentication token. Otherwise, it will get you logged in with https://github.com/microsoft/azure-maven-plugins/wiki/Azure-Maven-Plugin/[azure-maven-plugin] automatically.
 . Then you can configure the deployment, run the maven command in the Command Prompt and use the default configurations by pressing *ENTER* until you get the *Confirm (Y/N)* prompt, press *'y'* and the configuration is done.
 +
 ----
