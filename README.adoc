@@ -123,5 +123,5 @@ Additional information about using Spring with Azure is available here:
 * https://docs.microsoft.com/java/azure/spring-framework/[Spring on Azure]
 * https://docs.microsoft.com/java/azure/spring-framework/deploy-spring-boot-java-app-with-maven-plugin[Deploying a Spring Boot app to the cloud using the Maven Plugin for Azure Web Apps]
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[]
 
