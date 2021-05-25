@@ -102,7 +102,7 @@ Confirm to save all the above configurations (Y/n):
 </plugin>
 ----
 +
-. Once you have configured all of the settings in the preceding sections, you are ready to deploy your web app to Azure Spring Cloud with `mvn azure-spring-cloud:deploy`. Maven will deploy your web app to Azure. It might take a few minutes before the web app is accessible at the URL shown in the output. Navigate to the URL in a Web browser. You should see the message displayed: Greetings from Spring Boot!
+. Once you have configured all of the settings in the preceding sections, you are ready to deploy your web app to Azure Spring Cloud with `mvn azure-spring-cloud:deploy`. Maven will deploy your web app to Azure. It might take a few minutes before the web app is accessible at the URL shown in the output. Navigate to the URL in a Web browser. You should see the message displayed: Greetings from Spring Boot! Note that this simple Spring Boot sample app is not using any Spring Cloud components like Discovery Client, thus registration status will be down while the app is up and running normally.
 
 == (Option 2) Config and deploy the app to Azure App Service
 
