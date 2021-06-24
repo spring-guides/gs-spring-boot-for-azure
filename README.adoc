@@ -215,6 +215,8 @@ Additional information about using Spring with Azure is available here:
 * https://docs.microsoft.com/java/azure/spring-framework/[Spring on Azure]
 * https://docs.microsoft.com/azure/app-service/quickstart-java[Create a Java app on Azure App Service]
 * https://docs.microsoft.com/azure/spring-cloud/quickstart[Deploy your first Azure Spring Cloud application]
+* https://docs.microsoft.com/en-us/azure/developer/java/spring-framework/deploy-spring-boot-java-app-on-kubernetes [Deploy your Spring Boot app to Azure Kubernetes Service]
+* https://docs.microsoft.com/en-us/azure/developer/java/spring-framework/getting-started-with-spring-cloud-function-in-azure [Deploy your Spring Boot app to Azure Functions]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[]
 
