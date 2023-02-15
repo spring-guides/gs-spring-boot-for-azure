@@ -3,9 +3,9 @@
 :source-highlighter: prettify
 :project_id: gs-spring-boot-for-azure
 
-This article walks you through deploying an application to Azure Spring Apps.
+This article walks you through deploying an application to https://learn.microsoft.com/azure/spring-apps/overview[Azure Spring Apps].
 
-IMPORTANT: You are recommended to check out official Azure docs for https://docs.microsoft.com/azure/spring-cloud/quickstart[Azure Spring Apps] for the latest instructions for the same task.
+IMPORTANT: You are recommended to check out official Azure docs for https://learn.microsoft.com/azure/spring-apps/quickstart[Azure Spring Apps] for the latest instructions for the same task.
 
 == What you'll build
 
@@ -16,7 +16,7 @@ You'll clone a sample Spring Boot application from GitHub and then use Maven to 
 The following prerequisites are required in order to follow the steps in this article:
 
 * An Azure subscription. If you don't already have an Azure subscription, you can sign up for a https://azure.microsoft.com/pricing/free-trial/[free Azure account] or activate your https://azure.microsoft.com/pricing/member-offers/msdn-benefits-details/[MSDN subscriber benefits].
-* An up-to-date http://www.oracle.com/technetwork/java/javase/downloads/[Java Development Kit (JDK)], version 1.8 or later.
+* An http://www.oracle.com/technetwork/java/javase/downloads/[Java Development Kit (JDK)], version 17 or later.
 * A https://github.com/[Git] client.
 
 == Build and run a sample Spring Boot web app locally
@@ -26,8 +26,8 @@ In this section, you will clone an already written Spring Boot application and t
 . Open a terminal window.
 . Create a local directory to hold your Spring Boot application by typing `mkdir SpringBoot`
 . Change to that directory by typing `cd SpringBoot`.
-. Clone the https://github.com/spring-guides/gs-spring-boot[Spring Boot Getting Started] sample project into the directory you created by typing `git clone https://github.com/spring-guides/gs-spring-boot`
-. Change to the directory of the completed project by typing `cd gs-spring-boot/complete`
+. Clone the https://github.com/spring-guides/gs-spring-boot-for-azure[Deploying a Spring Boot app to Azure] sample project into the directory you created by typing `git clone https://github.com/spring-guides/gs-spring-boot-for-azure`
+. Change to the directory of the completed project by typing `cd gs-spring-boot-for-azure/complete`
 . Build the JAR file using Maven by typing `./mvnw clean package`
 . When the web app has been created, start it by typing `./mvnw spring-boot:run`
 . Test it locally by either visiting http://localhost:8080 or typing `curl http://localhost:8080` from another terminal window.
