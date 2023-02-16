@@ -52,12 +52,18 @@ In this section, you will clone an already written Spring Boot application and t
 +
 ----
 export MAVEN_OPTS="--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED"
-./mvnw com.microsoft.azure:azure-spring-apps-maven-plugin:1.14.0:config
+./mvnw com.microsoft.azure:azure-spring-apps-maven-plugin:1.14.0:config -DadvancedOptions
 ----
 +
 `export MAVEN_OPTS="--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED"` is used to avoid the problem tracked in https://github.com/microsoft/azure-maven-plugins/issues/2222[azure-maven-plugins#2222].
 This maven goal will first authenticate with Azure, if you have logged in with https://docs.microsoft.com/en-us/cli/azure/[Azure CLI], it will consume its existing authentication token. Otherwise, it will get you logged in with https://github.com/microsoft/azure-maven-plugins/wiki/Azure-Maven-Plugin/[azure-maven-plugin] automatically.
-. Then you can select the subscription, select Azure Spring Apps you just created, accept default for app name, then press *'y'* to expose public access for this app. When you get the *Confirm to save all the above configurations (Y/n)* prompt, press *'y'* and the configuration is done.
+. Input necessary information:
+ - Select subscription: Select the subscription which host the Azure Spring Apps you just created.
+ - Select Azure Spring Apps for deployment: Select the Azure Spring Apps you just created.
+ - Input runtime Java version(Java 11): Java 17
+ - Expose public access for this app boot-for-azure? (y/N): N
+ - For other options, just select the default value.
+. Here is a sample terminal output:
 +
 ----
 ~@Azure:~/gs-spring-boot/complete$ ./mvnw com.microsoft.azure:azure-spring-apps-maven-plugin:1.14.0:config
@@ -90,7 +96,7 @@ Public access     : yes
 Instance count    : 1
 CPU count         : 1
 Memory size(GB)   : 1
-Runtime Java version : Java 11
+Runtime Java version : Java 17
 Confirm to save all the above configurations (Y/n):Y
 ----
 +
@@ -111,7 +117,7 @@ Confirm to save all the above configurations (Y/n):Y
             <cpu>1</cpu>
             <memoryInGB>1</memoryInGB>
             <instanceCount>1</instanceCount>
-            <runtimeVersion>Java 11</runtimeVersion>
+            <runtimeVersion>Java 17</runtimeVersion>
             <resources>
                 <resource>
                     <filtering/>
@@ -128,7 +134,6 @@ Confirm to save all the above configurations (Y/n):Y
 </plugin>
 ----
 +
-. Change `<runtimeVersion>Java 11</runtimeVersion>` to `<runtimeVersion>Java 17</runtimeVersion>`
 
 === Deploy the app
 
