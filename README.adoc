@@ -19,7 +19,7 @@ The following prerequisites are required in order to follow the steps in this ar
 * An http://www.oracle.com/technetwork/java/javase/downloads/[Java Development Kit (JDK)], version 17 or later.
 * A https://github.com/[Git] client.
 
-== Build and run a sample Spring Boot web app locally
+== Build and run the web app locally
 
 In this section, you will clone an already written Spring Boot application and test it locally:
 
@@ -31,42 +31,67 @@ In this section, you will clone an already written Spring Boot application and t
 . Build the JAR file using Maven by typing `./mvnw clean package`
 . When the web app has been created, start it by typing `./mvnw spring-boot:run`
 . Test it locally by either visiting http://localhost:8080 or typing `curl http://localhost:8080` from another terminal window.
-. You should see the following message displayed: *Greetings from Spring Boot!*
-
+. You should see the following message displayed: *Hello World*.
 
 == Config and deploy the app to Azure Spring Apps
 
-. Before started, you will need to provision an Azure Spring Apps cluster for instance using https://portal.azure.com/#create/Microsoft.AppPlatform[Azure Portal].
+=== Provision an Azure Spring Apps instance
 
-. From the terminal window, config your web app with https://github.com/microsoft/azure-maven-plugins/tree/develop/azure-spring-cloud-maven-plugin/[Maven Plugin for Azure Spring Apps] by typing `./mvnw com.microsoft.azure:azure-spring-cloud-maven-plugin:1.3.0:config`. This maven goal will first authenticate with Azure, if you have logged in with https://docs.microsoft.com/en-us/cli/azure/[Azure CLI], it will consume its existing authentication token. Otherwise, it will get you logged in with https://github.com/microsoft/azure-maven-plugins/wiki/Azure-Maven-Plugin/[azure-maven-plugin] automatically.
-. Then you can configure the deployment, run the maven command in the Command Prompt and select the Azure Spring Apps cluster you just created, accept default for app name, then press *'y'* to expose public access for this app. When you get the *Confirm (Y/N)* prompt, press *'y'* and the configuration is done.
+. In a web browser, open the https://portal.azure.com/[Azure portal], and sign in to your account.
+. Search for `Azure Spring Apps` and then select `Azure Spring Apps`.
+. On the overview page, select Create, and then do the following:
+  a. In the Service Name box, specify the name of your service instance. The name must be from 4 to 32 characters long and can contain only lowercase letters, numbers, and hyphens. The first character of the service name must be a letter, and the last character must be either a letter or a number.
+  b. In the Subscription drop-down list, select the subscription you want to be billed for this resource.
+  c. In the Resource group box, create a new resource group. Creating resource groups for new resources is a best practice.
+  d. In the Location drop-down list, select the location for your service instance.
+. It takes about 5 minutes for the service to be deployed.
+
+=== Add configuration for deployment
+
+. Config your web app with https://github.com/microsoft/azure-maven-plugins/tree/develop/azure-spring-apps-maven-plugin[Maven Plugin for Azure Spring Apps] by this command:
 +
 ----
-~@Azure:~/gs-spring-boot/complete$ mvn com.microsoft.azure:azure-spring-cloud-maven-plugin:1.3.0:config
-[INFO] Scanning for projects...  
-[INFO] 
-[INFO] ----------------------< com.example:spring-boot >-----------------------
-[INFO] Building spring-boot 0.0.1-SNAPSHOT
-[INFO] --------------------------------[ jar ]---------------------------------
-[INFO] 
-[INFO] --- azure-spring-cloud-maven-plugin:1.3.0:config (default-cli) @ spring-boot ---
-[INFO] [Correlation ID: xxx] Instance discovery was successful
-Available Azure Spring Apps Services:
- 1. xxx*
+export MAVEN_OPTS="--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED"
+./mvnw com.microsoft.azure:azure-spring-apps-maven-plugin:1.14.0:config
+----
++
+`export MAVEN_OPTS="--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED"` is used to avoid the problem tracked in https://github.com/microsoft/azure-maven-plugins/issues/2222[azure-maven-plugins#2222].
+This maven goal will first authenticate with Azure, if you have logged in with https://docs.microsoft.com/en-us/cli/azure/[Azure CLI], it will consume its existing authentication token. Otherwise, it will get you logged in with https://github.com/microsoft/azure-maven-plugins/wiki/Azure-Maven-Plugin/[azure-maven-plugin] automatically.
+. Then you can select the subscription, select Azure Spring Apps you just created, accept default for app name, then press *'y'* to expose public access for this app. When you get the *Confirm to save all the above configurations (Y/n)* prompt, press *'y'* and the configuration is done.
++
+----
+~@Azure:~/gs-spring-boot/complete$ ./mvnw com.microsoft.azure:azure-spring-apps-maven-plugin:1.14.0:config
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building boot-for-azure 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- azure-spring-apps-maven-plugin:1.14.0:config (default-cli) @ demo ---
+...
+Available subscription:
+ 1. xxx
+...
+Select subscription [1-105] (20):
+...
+Available Azure Spring Apps:
+ 1. xxx
+...
 Select Azure Spring Apps for deployment: [1-28] (1): 1
-[INFO] Using service: xxx
-Input the app name (spring-boot):
-Expose public access for this app spring-boot? (y/N):y
+[INFO] Using Azure Spring Apps: xxx
+Input the app name (demo):
+Expose public access for this app boot-for-azure? (y/N):y
 Summary of properties:
 Subscription id   : xxx
-Service name      : xxx
-App name          : spring-boot
-Public access     : true
+Resource group name : xxx
+Azure Spring Apps name : xxx
+App name          : demo
+Public access     : yes
 Instance count    : 1
 CPU count         : 1
 Memory size(GB)   : 1
-Runtime Java version : Java 8
-Confirm to save all the above configurations (Y/n):
+Runtime Java version : Java 11
+Confirm to save all the above configurations (Y/n):Y
 ----
 +
 . Optionally, open your *pom.xml* to see all the configuration written.
@@ -74,18 +99,19 @@ Confirm to save all the above configurations (Y/n):
 ----
 <plugin>
     <groupId>com.microsoft.azure</groupId>
-    <artifactId>azure-spring-cloud-maven-plugin</artifactId>
-    <version>1.3.0</version>
+    <artifactId>azure-spring-apps-maven-plugin</artifactId>
+    <version>1.14.0</version>
     <configuration>
         <subscriptionId>xxx</subscriptionId>
+        <resourceGroup>xxx</resourceGroup>
         <clusterName>xxx</clusterName>
-        <appName>spring-boot</appName>
+        <appName>demo</appName>
         <isPublic>true</isPublic>
         <deployment>
             <cpu>1</cpu>
             <memoryInGB>1</memoryInGB>
             <instanceCount>1</instanceCount>
-            <runtimeVersion>Java 8</runtimeVersion>
+            <runtimeVersion>Java 11</runtimeVersion>
             <resources>
                 <resource>
                     <filtering/>
@@ -102,8 +128,17 @@ Confirm to save all the above configurations (Y/n):
 </plugin>
 ----
 +
-. Once you have configured all of the settings in the preceding sections, you are ready to deploy your web app to Azure Spring Apps with `mvn azure-spring-cloud:deploy`. Maven will deploy your web app to Azure. It might take a few minutes before the web app is accessible at the URL shown in the output. Navigate to the URL in a Web browser. You should see the message displayed: Greetings from Spring Boot! Note that this simple Spring Boot sample app is not using any Spring Cloud components like Discovery Client, thus registration status will be down while the app is up and running normally.
+. Change `<runtimeVersion>Java 11</runtimeVersion>` to `<runtimeVersion>Java 17</runtimeVersion>`
 
+=== Deploy the app
+
+. Run this command to deploy the app:
++
+----
+./mvnw azure-spring-apps:deploy
+----
++
+. It might take a few minutes before the web app is accessible at the URL shown in the output. Navigate to the URL in a Web browser. You should see the message displayed: `Hello World`.
 
 == Summary
 
@@ -115,9 +150,8 @@ IMPORTANT: Don't forget to delete the Azure resources created if no longer neede
 
 Additional information about using Spring with Azure is available here:
 
-* https://docs.microsoft.com/java/azure/spring-framework/[Spring on Azure]
-* https://docs.microsoft.com/azure/spring-cloud/quickstart[Deploy your first Azure Spring Apps application]
-* https://docs.microsoft.com/azure/developer/java/spring-framework/deploy-spring-boot-java-app-on-kubernetes[Deploy your Spring Boot app to Azure Kubernetes Service]
+* https://docs.microsoft.com/java/azure/spring/[Spring on Azure]
+* https://docs.microsoft.com/java/azure/spring-framework/[Spring Cloud Azure]
+* https://docs.microsoft.com/azure/spring-cloud/quickstart[Deploy your first application to Azure Spring Apps]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[]
-
