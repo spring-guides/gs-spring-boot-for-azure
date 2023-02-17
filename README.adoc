@@ -5,7 +5,7 @@
 
 This article walks you through deploying an application to https://learn.microsoft.com/azure/spring-apps/overview[Azure Spring Apps].
 
-IMPORTANT: You are recommended to check out official Azure docs for https://learn.microsoft.com/azure/spring-apps/quickstart[Azure Spring Apps] for the latest instructions for the same task.
+IMPORTANT: You are recommended to check out https://learn.microsoft.com/azure/spring-apps/quickstart[Azure Spring Apps quick start doc] for the latest instructions for the same task.
 
 == What you'll build
 
