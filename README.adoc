@@ -48,7 +48,7 @@ In this section, you will clone an already written Spring Boot application and t
 
 === Add configuration for deployment
 
-. Config your web app with https://github.com/microsoft/azure-maven-plugins/tree/develop/azure-spring-apps-maven-plugin[Maven Plugin for Azure Spring Apps] by this command:
+. Config the web app with https://github.com/microsoft/azure-maven-plugins/tree/develop/azure-spring-apps-maven-plugin[Maven Plugin for Azure Spring Apps] by this command:
 +
 ----
 export MAVEN_OPTS="--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED"
@@ -133,7 +133,6 @@ Confirm to save all the above configurations (Y/n):Y
     </configuration>
 </plugin>
 ----
-+
 
 === Deploy the app
 
