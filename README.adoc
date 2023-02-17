@@ -3,13 +3,13 @@
 :source-highlighter: prettify
 :project_id: gs-spring-boot-for-azure
 
-This article walks you through deploying an application to https://learn.microsoft.com/azure/spring-apps/overview[Azure Spring Apps].
+This article walks you through deploying an Spring Boot application to https://learn.microsoft.com/azure/spring-apps/overview[Azure Spring Apps].
 
 IMPORTANT: You are recommended to check out https://learn.microsoft.com/azure/spring-apps/quickstart[Azure Spring Apps quick start doc] for the latest instructions for the same task.
 
 == What you'll build
 
-You'll clone a sample Spring Boot application from GitHub and then use Maven to deploy it to Azure.
+You'll clone a sample Spring Boot application from GitHub and then use Maven to deploy it to Azure Spring Apps.
 
 == What you'll need
 
