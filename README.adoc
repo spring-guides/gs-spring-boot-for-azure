@@ -154,8 +154,8 @@ IMPORTANT: Don't forget to delete the Azure resources created if no longer neede
 
 Additional information about using Spring with Azure is available here:
 
-* https://docs.microsoft.com/java/azure/spring/[Spring on Azure]
-* https://docs.microsoft.com/java/azure/spring-framework/[Spring Cloud Azure]
-* https://docs.microsoft.com/azure/spring-cloud/quickstart[Deploy your first application to Azure Spring Apps]
+* https://learn.microsoft.com/azure/developer/java/spring/[Spring on Azure]
+* https://learn.microsoft.com/azure/developer/java/spring-framework/[Spring Cloud Azure]
+* https://learn.microsoft.com/en-us/azure/spring-apps/quickstart[Deploy your first application to Azure Spring Apps]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[]
