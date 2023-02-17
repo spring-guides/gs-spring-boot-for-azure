@@ -61,7 +61,7 @@ This maven goal will first authenticate with Azure, if you have logged in with h
  - Select subscription: Select the subscription which host the Azure Spring Apps you just created.
  - Select Azure Spring Apps for deployment: Select the Azure Spring Apps you just created.
  - Input runtime Java version(Java 11): Java 17
- - Expose public access for this app boot-for-azure? (y/N): N
+ - Expose public access for this app boot-for-azure? (y/N): y
  - For other options, just select the default value.
 . Here is a sample terminal output:
 +
