@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/alpha/azure.yaml.json
+
+name: gs-spring-boot-for-azure
+metadata:
+  template: gs-spring-boot-for-azure@0.0.1-beta
+services:
+  boot-for-azure:
+    project: ./complete/
+    host: springapp
+    language: java
+    spring:
+      deploymentName: default
