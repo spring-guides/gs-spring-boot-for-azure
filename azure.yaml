@@ -4,7 +4,7 @@ name: gs-spring-boot-for-azure
 metadata:
   template: gs-spring-boot-for-azure@0.0.1-beta
 services:
-  boot-for-azure:
+  demo:
     project: ./complete/
     host: springapp
     language: java

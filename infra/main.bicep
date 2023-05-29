@@ -19,7 +19,7 @@ param relativePath string
 var abbrs = loadJsonContent('./abbreviations.json')
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
 var asaInstanceName = '${abbrs.springApps}${resourceToken}'
-var appName = 'boot-for-azure'
+var appName = 'demo'
 var tags = {
   'azd-env-name': environmentName
   'spring-cloud-azure': 'true'
