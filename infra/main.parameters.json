@@ -12,7 +12,7 @@
       "value": "${AZURE_PRINCIPAL_ID}"
     },
     "relativePath": {
-      "value": "${SERVICE_BOOT_FOR_AZURE_RELATIVE_PATH=<default>}"
+      "value": "${SERVICE_DEMO_RELATIVE_PATH=<default>}"
     }
   }
 }
