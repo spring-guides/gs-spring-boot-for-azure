@@ -3,63 +3,159 @@
 :source-highlighter: prettify
 :project_id: gs-spring-boot-for-azure
 
-A Spring Boot hello-world application that includes everything you need to build and deploy an Azure solution. This application uses the Azure Developer CLI (azd) to get you up and running on Azure quickly. It includes application code and tools that serve as a foundation from which you can build upon and customize when creating your own solutions.
-
-Let's jump in and get the hello-world app up and running in Azure. When you are finished, you will have a hello world app deployed on Azure.
+This article walks you through deploying a Spring Boot application to https://learn.microsoft.com/azure/spring-apps/overview[Azure Spring Apps].
 
 IMPORTANT: You are recommended to check out https://learn.microsoft.com/azure/spring-apps/quickstart[Azure Spring Apps quick start doc] for the latest instructions for the same task.
 
-== Prerequisites
+== What you'll build
 
-The following prerequisites are required to use this application. Please ensure that you have them all installed locally.
+You'll clone a sample Spring Boot application from GitHub and then use Maven to deploy it to Azure Spring Apps.
 
-- https://aka.ms/azd-install[Azure Developer CLI]
-- https://learn.microsoft.com/en-us/java/openjdk/install[Java 17 or later]
+== What you'll need
 
-== Quickstart
+The following prerequisites are required in order to follow the steps in this article:
 
-To learn how to get started with any template, follow the steps in https://learn.microsoft.com/azure/developer/azure-developer-cli/get-started?tabs=localinstall&pivots=programming-language-java[this quickstart] with this template.
+* An Azure subscription. If you don't have an Azure subscription, you can sign up for a https://azure.microsoft.com/pricing/free-trial/[free Azure account] or activate your https://azure.microsoft.com/pricing/member-offers/msdn-benefits-details/[MSDN subscriber benefits].
+* An http://www.oracle.com/technetwork/java/javase/downloads/[Java Development Kit (JDK)], version 17 or later.
+* A https://github.com/[Git] client.
 
-This quickstart will show you how to authenticate on Azure, initialize using a template, provision infrastructure and deploy code on Azure via the following commands:
+== Build and run the web app locally
 
-```bash
-# Log in to azd. Only required once per-install.
-azd auth login
+In this section, you will clone a Spring Boot application and test it locally.
 
-# Enable Azure Spring Apps feature for AZD
-azd config set alpha.springapp on
+. Open a terminal window.
+. Create a local directory to hold your Spring Boot application by typing `mkdir SpringBoot`
+. Change to that directory by typing `cd SpringBoot`.
+. Clone the https://github.com/spring-guides/gs-spring-boot-for-azure[Deploying a Spring Boot app to Azure] sample project into the directory you created by typing `git clone https://github.com/spring-guides/gs-spring-boot-for-azure`
+. Change to the directory of the completed project by typing `cd gs-spring-boot-for-azure/complete`
+. Build the JAR file using Maven by typing `./mvnw clean package`
+. When the web app has been created, start it by typing `./mvnw spring-boot:run`
+. Test it locally by either visiting http://localhost:8080 or typing `curl http://localhost:8080` from another terminal window.
+. You should see the following message displayed: *Hello World*.
 
-# First-time project setup. Initialize a project in the current directory, using this template.
-azd init --template https://github.com/spring-guides/gs-spring-boot-for-azure
+== Config and deploy the app to Azure Spring Apps
 
-# Provision and deploy to Azure
-azd up
-```
+=== Provision an Azure Spring Apps instance
 
-== Application Architecture
+. In a web browser, open the https://portal.azure.com/[Azure portal], and sign in to your account.
+. Search for `Azure Spring Apps` and then select `Azure Spring Apps`.
+. On the overview page, select Create, and then do the following:
+  a. In the Service Name box, specify the name of your service instance. The name must be from 4 to 32 characters long and can contain only lowercase letters, numbers, and hyphens. The first character of the service name must be a letter, and the last character must be either a letter or a number.
+  b. In the Subscription drop-down list, select the subscription you want to be billed for this resource.
+  c. In the Resource group box, create a new resource group. Creating resource groups for new resources is a best practice.
+  d. In the Location drop-down list, select the location for your service instance.
+. It takes about 5 minutes for the service to be deployed.
 
-This application utilizes the following Azure resources:
+=== Add configuration for deployment
 
-- https://docs.microsoft.com/azure/spring-apps/[**Azure Spring Apps**] to host the application
+. Config the web app with https://github.com/microsoft/azure-maven-plugins/tree/develop/azure-spring-apps-maven-plugin[Maven Plugin for Azure Spring Apps] by this command:
++
+----
+export MAVEN_OPTS="--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED"
+./mvnw com.microsoft.azure:azure-spring-apps-maven-plugin:1.14.0:config -DadvancedOptions
+----
++
+ - Command explanation:
+   * `export MAVEN_OPTS="--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED"` is used to avoid the problem tracked in https://github.com/microsoft/azure-maven-plugins/issues/2222[azure-maven-plugins#2222].
+   * This maven goal will first authenticate with Azure, if you have logged in with https://docs.microsoft.com/en-us/cli/azure/[Azure CLI], it will consume its existing authentication token. Otherwise, it will get you logged in with https://github.com/microsoft/azure-maven-plugins/wiki/Azure-Maven-Plugin/[azure-maven-plugin] automatically.
 
-> This template provisions resources to an Azure subscription that you will select upon provisioning them. Please refer to the https://azure.microsoft.com/pricing/calculator/[Pricing calculator for Microsoft Azure] and, if needed, update the included Azure resource definitions found in `infra/main.bicep` to suit your needs.
+ - Input necessary information:
+   * Select subscription: Select the subscription which host the Azure Spring Apps you just created.
+   * Select Azure Spring Apps for deployment: Select the Azure Spring Apps you just created.
+   * Input runtime Java version(Java 11): Java 17
+   * Expose public access for this app boot-for-azure? (y/N): y
+   * For other options, just select the default value.
+ - Here is a sample terminal output:
++
+----
+~@Azure:~/gs-spring-boot/complete$ ./mvnw com.microsoft.azure:azure-spring-apps-maven-plugin:1.14.0:config -DadvancedOptions
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building boot-for-azure 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- azure-spring-apps-maven-plugin:1.14.0:config (default-cli) @ demo ---
+...
+Available subscription:
+ 1. xxx
+...
+Select subscription [1-105] (20):
+...
+Available Azure Spring Apps:
+ 1. xxx
+...
+Select Azure Spring Apps for deployment: [1-28] (1): 1
+[INFO] Using Azure Spring Apps: xxx
+Input the app name (demo):
+Expose public access for this app boot-for-azure? (y/N):y
+Summary of properties:
+Subscription id   : xxx
+Resource group name : xxx
+Azure Spring Apps name : xxx
+App name          : demo
+Public access     : yes
+Instance count    : 1
+CPU count         : 1
+Memory size(GB)   : 1
+Runtime Java version : Java 17
+Confirm to save all the above configurations (Y/n):Y
+----
++
+. Optionally, open the *pom.xml* to see the new added content.
++
+----
+<plugin>
+    <groupId>com.microsoft.azure</groupId>
+    <artifactId>azure-spring-apps-maven-plugin</artifactId>
+    <version>1.14.0</version>
+    <configuration>
+        <subscriptionId>xxx</subscriptionId>
+        <resourceGroup>xxx</resourceGroup>
+        <clusterName>xxx</clusterName>
+        <appName>demo</appName>
+        <isPublic>true</isPublic>
+        <deployment>
+            <cpu>1</cpu>
+            <memoryInGB>1</memoryInGB>
+            <instanceCount>1</instanceCount>
+            <runtimeVersion>Java 17</runtimeVersion>
+            <resources>
+                <resource>
+                    <filtering/>
+                    <mergeId/>
+                    <targetPath/>
+                    <directory>${project.basedir}/target</directory>
+                    <includes>
+                        <include>*.jar</include>
+                    </includes>
+                </resource>
+            </resources>
+        </deployment>
+    </configuration>
+</plugin>
+----
 
-== Application Code
+=== Deploy the app
 
-This template is structured to follow the https://aka.ms/azure-dev/overview[Azure Developer CLI]. You can learn more about `azd` architecture in https://learn.microsoft.com/azure/developer/azure-developer-cli/make-azd-compatible?pivots=azd-create#understand-the-azd-architecture[the official documentation].
+. Run this command to deploy the app:
++
+----
+./mvnw azure-spring-apps:deploy
+----
++
+. It might take a few minutes to deploy. After deploy finished, there will be a URL shown in the output. Navigate to the URL in a web browser. You should see the message displayed: `Hello World`.
 
-== Next Steps
+== Summary
 
-At this point, you have a complete application deployed on Azure. But there is much more that the Azure Developer CLI can do. Using the Azure Developer CLI, you can delete the resources easily.
+Congratulations! You built and deployed a Spring Boot app to Azure Spring Apps. You can visit the https://portal.azure.com/[Azure portal] to manage it.
 
-- https://learn.microsoft.com/azure/developer/azure-developer-cli/reference#azd-down[`azd down`] - to delete all the Azure resources created with this template
+IMPORTANT: Don't forget to delete the Azure resources created if no longer needed. 
 
-=== Additional `azd` commands
+== Run with AZD
+You can also use (https://learn.microsoft.com/azure/developer/azure-developer-cli/overview)[the Azure Developer CLI (azd)] to get you up and running this application on Azure Spring Apps quickly. Azure Developer CLI is an open-source tool that accelerates the time it takes for you to get your application from local development environment to Azure.
 
-The Azure Developer CLI includes many other commands to help with your Azure development experience. You can view these commands at the terminal by running `azd help`. You can also view the full list of commands on our https://aka.ms/azure-dev/ref[Azure Developer CLI command] page.
-
-=== Reporting Issues and Feedback
-If you have any feature requests, issues, or areas for improvement, please https://aka.ms/azure-dev/issues[file an issue]. To keep up-to-date, ask questions, or share suggestions, join our https://aka.ms/azure-dev/discussions[GitHub Discussions]. You may also contact us via AzDevTeam@microsoft.com.
+For how to run it with azd, you can refer to https://learn.microsoft.com/azure/spring-apps/quickstart[Deploy your first application to Azure Spring Apps]
 
 == See also
 
@@ -67,6 +163,5 @@ Additional information about using Spring with Azure is available here:
 
 * https://learn.microsoft.com/azure/developer/java/spring/[Spring on Azure]
 * https://learn.microsoft.com/azure/developer/java/spring-framework/[Spring Cloud Azure]
-* https://learn.microsoft.com/azure/spring-apps/quickstart[Deploy your first application to Azure Spring Apps]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[]
