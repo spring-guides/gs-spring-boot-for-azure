@@ -40,7 +40,7 @@ public class GreetingControllerTest {
 	@Test
 	public void greetingShouldReturnDefaultMessage() throws Exception {
 
-		this.mockMvc.perform(get("/greeting")).andDo(print()).andExpect(status().isOk())
+		this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk())
 				.andExpect(content().string(containsString("Hello World")));
 	}
 }
