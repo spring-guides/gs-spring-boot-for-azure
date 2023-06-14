@@ -51,55 +51,56 @@ In this section, you will clone a Spring Boot application and test it locally.
 . Config the web app with https://github.com/microsoft/azure-maven-plugins/tree/develop/azure-spring-apps-maven-plugin[Maven Plugin for Azure Spring Apps] by this command:
 +
 ----
-export MAVEN_OPTS="--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED"
-./mvnw com.microsoft.azure:azure-spring-apps-maven-plugin:1.14.0:config -DadvancedOptions
+./mvnw com.microsoft.azure:azure-spring-apps-maven-plugin:1.16.0:config
 ----
 +
- - Command explanation:
-   * `export MAVEN_OPTS="--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED"` is used to avoid the problem tracked in https://github.com/microsoft/azure-maven-plugins/issues/2222[azure-maven-plugins#2222].
-   * This maven goal will first authenticate with Azure, if you have logged in with https://docs.microsoft.com/en-us/cli/azure/[Azure CLI], it will consume its existing authentication token. Otherwise, it will get you logged in with https://github.com/microsoft/azure-maven-plugins/wiki/Azure-Maven-Plugin/[azure-maven-plugin] automatically.
+ - This maven goal will first authenticate with Azure, if you have logged in with https://docs.microsoft.com/en-us/cli/azure/[Azure CLI], it will consume its existing authentication token. Otherwise, it will get you logged in with https://github.com/microsoft/azure-maven-plugins/wiki/Azure-Maven-Plugin/[azure-maven-plugin] automatically.
 
- - Input necessary information:
-   * Select subscription: Select the subscription which host the Azure Spring Apps you just created.
-   * Select Azure Spring Apps for deployment: Select the Azure Spring Apps you just created.
-   * Input runtime Java version(Java 11): Java 17
-   * Expose public access for this app boot-for-azure? (y/N): y
-   * For other options, just select the default value.
- - Here is a sample terminal output:
+ - After login successfully, you will get the subscription list like this:
 +
 ----
-~@Azure:~/gs-spring-boot/complete$ ./mvnw com.microsoft.azure:azure-spring-apps-maven-plugin:1.14.0:config -DadvancedOptions
-[INFO] Scanning for projects...
-[INFO]
-[INFO] ------------------------------------------------------------------------
-[INFO] Building boot-for-azure 0.0.1-SNAPSHOT
-[INFO] ------------------------------------------------------------------------
-[INFO]
-[INFO] --- azure-spring-apps-maven-plugin:1.14.0:config (default-cli) @ demo ---
-...
 Available subscription:
- 1. xxx
-...
-Select subscription [1-105] (20):
-...
+1. Demo Subscription A (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)*
+2. Demo Subscription B (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
+3. Demo Subscription C (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
+... // Omit other subscriptions
+Select subscription [1-xx] (1):
+----
++
+IMPORTANT: If there is error like `Execution of class com.microsoft.aad.msal4j.AcquireTokenSilentSupplier failed.` and get the subscription list successfully. You can just ignore the error and continue the following steps. Here is more information about this error: https://github.com/microsoft/azure-maven-plugins/issues/2270[azure-maven-plugins#2270].
+
+ - Select the subscription which host the Azure Spring Apps you just created. Then you will get the Azure Spring Apps list:
++
+----
 Available Azure Spring Apps:
- 1. xxx
-...
-Select Azure Spring Apps for deployment: [1-28] (1): 1
+1. Sample-Azure-Spring-Apps-A*
+2. Sample-Azure-Spring-Apps-B
+3. Sample-Azure-Spring-Apps-C
+... // Omit other Azure Spring Apps instance
+Select Azure Spring Apps for deployment: [1-xx] (1):
+----
++
+IMPORTANT: If there is error like `does not support the API version '2022-09-01-preview'` and get the Azure Spring Apps instance list successfully. You can just ignore the error and continue the following steps. Here is more information about this error: https://github.com/microsoft/azure-maven-plugins/issues/2268[azure-maven-plugins#2268].
+
+ - Configure other properties according to the hints:
++
+----
 [INFO] Using Azure Spring Apps: xxx
 Input the app name (demo):
-Expose public access for this app boot-for-azure? (y/N):y
+[INFO] There is only one valid runtime (Java 17) for your project, will use it automatically.
+Expose public access for this app (boot-for-azure)? (y/N):
 Summary of properties:
 Subscription id   : xxx
 Resource group name : xxx
 Azure Spring Apps name : xxx
+Runtime Java version : Java 17
 App name          : demo
-Public access     : yes
+Public access     : true
 Instance count    : 1
 CPU count         : 1
 Memory size(GB)   : 1
-Runtime Java version : Java 17
-Confirm to save all the above configurations (Y/n):Y
+Confirm to save all the above configurations (Y/n):
+[INFO] Configurations are saved to: gs-spring-boot-for-azure\complete\pom.xml
 ----
 +
 . Optionally, open the *pom.xml* to see the new added content.
@@ -108,7 +109,7 @@ Confirm to save all the above configurations (Y/n):Y
 <plugin>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure-spring-apps-maven-plugin</artifactId>
-    <version>1.14.0</version>
+    <version>1.16.0</version>
     <configuration>
         <subscriptionId>xxx</subscriptionId>
         <resourceGroup>xxx</resourceGroup>
