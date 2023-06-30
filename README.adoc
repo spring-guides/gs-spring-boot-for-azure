@@ -52,7 +52,7 @@ In this section, you will clone a Spring Boot application and test it locally.
 +
 ----
 export MAVEN_OPTS="--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED"
-./mvnw com.microsoft.azure:azure-spring-apps-maven-plugin:1.14.0:config -DadvancedOptions
+./mvnw com.microsoft.azure:azure-spring-apps-maven-plugin:1.18.0:config -DadvancedOptions
 ----
 +
  - Command explanation:
@@ -153,7 +153,7 @@ Congratulations! You built and deployed a Spring Boot app to Azure Spring Apps. 
 IMPORTANT: Don't forget to delete the Azure resources created if no longer needed. 
 
 == Run with AZD
-You can also use (https://learn.microsoft.com/azure/developer/azure-developer-cli/overview)[the Azure Developer CLI (azd)] to get you up and running this application on Azure Spring Apps quickly. Azure Developer CLI is an open-source tool that accelerates the time it takes for you to get your application from local development environment to Azure.
+You can also use https://learn.microsoft.com/azure/developer/azure-developer-cli/overview[the Azure Developer CLI (azd)] to get you up and running this application on Azure Spring Apps quickly. Azure Developer CLI is an open-source tool that accelerates the time it takes for you to get your application from local development environment to Azure.
 
 For how to run it with azd, you can refer to https://learn.microsoft.com/azure/spring-apps/quickstart[Deploy your first application to Azure Spring Apps]
 
