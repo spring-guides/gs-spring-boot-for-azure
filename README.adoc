@@ -153,7 +153,7 @@ Congratulations! You built and deployed a Spring Boot app to Azure Spring Apps. 
 IMPORTANT: Don't forget to delete the Azure resources created if no longer needed. 
 
 == Run with AZD
-You can also use https://learn.microsoft.com/azure/developer/azure-developer-cli/overview[the Azure Developer CLI (azd)] to get you up and running this application on Azure Spring Apps quickly. Azure Developer CLI is an open-source tool that accelerates the time it takes for you to get your application from local development environment to Azure.
+You can also use https://learn.microsoft.com/azure/developer/azure-developer-cli/overview[the Azure Developer CLI (azd)] to quickly run this application on Azure Spring Apps. The Azure Developer CLI is an open-source tool that accelerates the time it takes for you to get your application from your local development environment to Azure.
 
 For how to run it with azd, you can refer to https://learn.microsoft.com/azure/spring-apps/quickstart[Deploy your first application to Azure Spring Apps]
 
