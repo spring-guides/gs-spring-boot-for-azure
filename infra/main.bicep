@@ -12,12 +12,18 @@ param location string
 @description('Id of the user or app to assign application roles')
 param principalId string = ''
 
-
 @description('Relative Path of ASA Jar')
 param relativePath string
 
+@allowed([
+  'Consumption'
+  'Standard'
+])
+param tier string
+
 var abbrs = loadJsonContent('./abbreviations.json')
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
+var asaManagedEnvironmentName = '${abbrs.appContainerAppsManagedEnvironment}${resourceToken}'
 var asaInstanceName = '${abbrs.springApps}${resourceToken}'
 var appName = 'demo'
 var tags = {
@@ -33,13 +39,26 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   tags: tags
 }
 
-module springApps 'modules/springapps/springapps.bicep' = {
-  name: '${deployment().name}--asa'
+module springAppsConsumption 'modules/springapps/springappsConsumption.bicep' = if (tier == 'Consumption') {
+  name: '${deployment().name}--asaconsumption'
   scope: resourceGroup(rg.name)
   params: {
     location: location
 	appName: appName
-	tags: union(tags, { 'azd-service-name': appName })
+	tags: tags
+	asaManagedEnvironmentName: asaManagedEnvironmentName
+	asaInstanceName: asaInstanceName
+	relativePath: relativePath
+  }
+}
+
+module springAppsStandard 'modules/springapps/springappsStandard.bicep' = if (tier == 'Standard') {
+  name: '${deployment().name}--asastandard'
+  scope: resourceGroup(rg.name)
+  params: {
+    location: location
+	appName: appName
+	tags: tags
 	asaInstanceName: asaInstanceName
 	relativePath: relativePath
   }
