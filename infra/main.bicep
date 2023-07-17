@@ -19,7 +19,7 @@ param relativePath string
   'Consumption'
   'Standard'
 ])
-param tier string
+param plan string
 
 var abbrs = loadJsonContent('./abbreviations.json')
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
@@ -39,7 +39,7 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   tags: tags
 }
 
-module springAppsConsumption 'modules/springapps/springappsConsumption.bicep' = if (tier == 'Consumption') {
+module springAppsConsumption 'modules/springapps/springappsConsumption.bicep' = if (plan == 'Consumption') {
   name: '${deployment().name}--asaconsumption'
   scope: resourceGroup(rg.name)
   params: {
@@ -52,7 +52,7 @@ module springAppsConsumption 'modules/springapps/springappsConsumption.bicep' = 
   }
 }
 
-module springAppsStandard 'modules/springapps/springappsStandard.bicep' = if (tier == 'Standard') {
+module springAppsStandard 'modules/springapps/springappsStandard.bicep' = if (plan == 'Standard') {
   name: '${deployment().name}--asastandard'
   scope: resourceGroup(rg.name)
   params: {
