@@ -13,6 +13,9 @@
     },
     "relativePath": {
       "value": "${SERVICE_DEMO_RELATIVE_PATH=<default>}"
+    },
+    "plan": {
+      "value": "${PLAN=consumption}"
     }
   }
 }
