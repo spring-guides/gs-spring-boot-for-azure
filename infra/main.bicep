@@ -16,10 +16,10 @@ param principalId string = ''
 param relativePath string
 
 @allowed([
-  'Consumption'
-  'Standard'
+  'consumption'
+  'standard'
 ])
-param plan string
+param plan string = 'consumption'
 
 var abbrs = loadJsonContent('./abbreviations.json')
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
@@ -39,7 +39,7 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   tags: tags
 }
 
-module springAppsConsumption 'modules/springapps/springappsConsumption.bicep' = if (plan == 'Consumption') {
+module springAppsConsumption 'modules/springapps/springappsConsumption.bicep' = if (plan == 'consumption') {
   name: '${deployment().name}--asaconsumption'
   scope: resourceGroup(rg.name)
   params: {
@@ -52,7 +52,7 @@ module springAppsConsumption 'modules/springapps/springappsConsumption.bicep' = 
   }
 }
 
-module springAppsStandard 'modules/springapps/springappsStandard.bicep' = if (plan == 'Standard') {
+module springAppsStandard 'modules/springapps/springappsStandard.bicep' = if (plan == 'standard') {
   name: '${deployment().name}--asastandard'
   scope: resourceGroup(rg.name)
   params: {
