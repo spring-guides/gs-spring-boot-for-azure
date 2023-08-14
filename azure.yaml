@@ -8,5 +8,3 @@ services:
     project: ./complete/
     host: springapp
     language: java
-    spring:
-      deploymentName: default
