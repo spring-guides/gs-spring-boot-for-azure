@@ -3,6 +3,12 @@
 :source-highlighter: prettify
 :project_id: gs-spring-boot-for-azure
 
+| Deploy to Azure Spring Apps | |
+|--|--|
+| Consumption plan|[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fspring-guides%2Fgs-spring-boot-for-azure%2Fmoary%2Fsupport-deploy-to-azure-button%2Finfra%2Fazuredeploy-asa-consumption.json)|
+| Basic/Standard  |[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fspring-guides%2Fgs-spring-boot-for-azure%2Fmoary%2Fsupport-deploy-to-azure-button%2Finfra%2Fazuredeploy-asa-standard.json)|
+| Enterprise      |Not support |
+
 This article walks you through deploying a Spring Boot application to https://learn.microsoft.com/azure/spring-apps/overview[Azure Spring Apps].
 
 IMPORTANT: You are recommended to check out https://learn.microsoft.com/azure/spring-apps/quickstart[Azure Spring Apps quick start doc] for the latest instructions for the same task.
