@@ -1,20 +1,5 @@
 #!/bin/bash
 
-#      Copyright (c) Microsoft Corporation.
-#      Copyright (c) IBM Corporation. 
-#
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
-# 
-#           http://www.apache.org/licenses/LICENSE-2.0
-# 
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
-
 set -Eeuo pipefail
 
 # Fail fast the deployment if envs are empty
@@ -33,7 +18,7 @@ if [[ -z "$ASA_SERVICE_NAME" ]]; then
   exit 1
 fi
 
-get_resource_upload_url_result=$(az rest -m post -u "https://management.azure.com/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.AppPlatform/Spring/$ASA_SERVICE_NAME/apps/simple-todo-web/getResourceUploadUrl?api-version=2023-05-01-preview")
+get_resource_upload_url_result=$(az rest -m post -u "https://management.azure.com/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.AppPlatform/Spring/$ASA_SERVICE_NAME/apps/demo/getResourceUploadUrl?api-version=2023-05-01-preview")
 upload_url=$(echo $get_resource_upload_url_result | jq -r '.uploadUrl')
 relative_path=$(echo $get_resource_upload_url_result | jq -r '.relativePath')
 source_url="https://github.com/Azure/spring-cloud-azure-tools/releases/download/0.0.1/hello-world-0.0.1.jar"
