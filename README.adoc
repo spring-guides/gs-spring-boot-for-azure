@@ -6,10 +6,10 @@
 |===
 |Deploy to Azure Spring Apps |
 |Consumption plan
-|image:https://aka.ms/deploytoazurebutton[link=https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmoarychan%2Fgs-spring-boot-for-azure%2Fmain%2Finfra%2Fazuredeploy-asa-consumption.json]
+|image:https://aka.ms/deploytoazurebutton[link=https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fspring-guides%2Fgs-spring-boot-for-azure%2Fmain%2Finfra%2Fazuredeploy-asa-consumption.json]
 
 |Basic/Standard plan
-|image:https://aka.ms/deploytoazurebutton[link=https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmoarychan%2Fgs-spring-boot-for-azure%2Fmain%2Finfra%2Fazuredeploy-asa-standard.json]
+|image:https://aka.ms/deploytoazurebutton[link=https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fspring-guides%2Fgs-spring-boot-for-azure%2Fmain%2Finfra%2Fazuredeploy-asa-standard.json]
 
 |Enterprise plan
 |Not support
