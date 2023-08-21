@@ -236,6 +236,39 @@
           "contentVersion":"1.0.0.0"
         }
       }
+    },
+    {
+      "condition": "[equals(parameters('plan'), 'enterprise')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "[format('{0}--ent', deployment().name)]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "appName": {
+            "value": "[variables('appName')]"
+          },
+          "tags": {
+            "value": "[union(variables('tags'), createObject('asa-service-name', variables('appName')))]"
+          },
+          "asaInstanceName": {
+            "value": "[concat(variables('asaInstanceName'), '-', parameters('plan'))]"
+          },
+          "userAssignedManagedIdentityName": {
+            "value": "[concat(variables('userAssignedManagedIdentityName'), '-', parameters('plan'))]"
+          }
+        },
+        "templateLink": {
+          "relativePath": "azuredeploy/enterprise.json",
+          "contentVersion":"1.0.0.0"
+        }
+      }
     }
   ]
 }

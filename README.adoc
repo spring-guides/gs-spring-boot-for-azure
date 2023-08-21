@@ -12,7 +12,7 @@
 |image:https://aka.ms/deploytoazurebutton[link=https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fspring-guides%2Fgs-spring-boot-for-azure%2Fmain%2Finfra%2Fazuredeploy-asa-standard.json]
 
 |Enterprise plan
-|Not support
+|image:https://aka.ms/deploytoazurebutton[link=https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fspring-guides%2Fgs-spring-boot-for-azure%2Fmain%2Finfra%2Fazuredeploy-asa-enterprise.json]
 |===
 
 This article walks you through deploying a Spring Boot application to https://learn.microsoft.com/azure/spring-apps/overview[Azure Spring Apps].

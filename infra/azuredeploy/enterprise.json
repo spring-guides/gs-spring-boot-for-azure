@@ -1,0 +1,330 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "asaInstanceName": {
+      "type": "string"
+    },
+    "appName": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "tags": {
+      "type": "object",
+      "defaultValue": {}
+    },
+    "userAssignedManagedIdentityName": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "const_ownerRole": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '8e3af657-a8ff-443c-a75c-2fe8c4bcb635')]",
+    "const_scriptLocation": "https://raw.githubusercontent.com/spring-guides/gs-spring-boot-for-azure/main/infra/azuredeploy/",
+    "const_uploadScriptName": "deploy-jar-to-asa.sh",
+    "const_checkScriptName": "check-provision-state.ps1",
+    "const_checkingBuilderStateDeploymentName": "checking-build-service-builder-state",
+    "ref_identityId": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName'))]",
+    "name_deploymentScriptName": "asa-enterprise-deployment-script",
+    "name_roleAssignmentName": "[guid(format('{0}{1}Role assignment in group{0}', resourceGroup().name, variables('ref_identityId')))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.AppPlatform/Spring",
+      "apiVersion": "2023-05-01-preview",
+      "name": "[parameters('asaInstanceName')]",
+      "location": "[parameters('location')]",
+      "tags": "[parameters('tags')]",
+      "sku": {
+        "name": "E0",
+        "tier": "Enterprise"
+      }
+    },
+    {
+      "type": "Microsoft.AppPlatform/Spring/applicationAccelerators",
+      "apiVersion": "2023-05-01-preview",
+      "name": "[concat(parameters('asaInstanceName'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.AppPlatform/Spring', parameters('asaInstanceName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.AppPlatform/Spring/applicationLiveViews",
+      "apiVersion": "2023-05-01-preview",
+      "name": "[concat(parameters('asaInstanceName'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.AppPlatform/Spring', parameters('asaInstanceName'))]"
+      ],
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.AppPlatform/Spring/apps",
+      "apiVersion": "2023-05-01-preview",
+      "name": "[format('{0}/{1}', parameters('asaInstanceName'), parameters('appName'))]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.AppPlatform/Spring', parameters('asaInstanceName'))]"
+      ],
+      "properties": {
+        "addonConfigs": {
+          "applicationConfigurationService": {},
+          "serviceRegistry": {}
+        },
+        "public": true,
+        "httpsOnly": false,
+        "temporaryDisk": {
+          "sizeInGB": 5,
+          "mountPath": "/tmp"
+        },
+        "persistentDisk": {
+          "sizeInGB": 0,
+          "mountPath": "/persistent"
+        },
+        "enableEndToEndTLS": false,
+        "ingressSettings": {
+          "readTimeoutInSeconds": 300,
+          "sendTimeoutInSeconds": 60,
+          "sessionCookieMaxAge": 0,
+          "sessionAffinity": "None",
+          "backendProtocol": "Default"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.AppPlatform/Spring/buildServices",
+      "apiVersion": "2023-05-01-preview",
+      "name": "[concat(parameters('asaInstanceName'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.AppPlatform/Spring', parameters('asaInstanceName'))]"
+      ],
+      "properties": {
+        "resourceRequests": {}
+      }
+    },
+    {
+      "type": "Microsoft.AppPlatform/Spring/configurationServices",
+      "apiVersion": "2023-05-01-preview",
+      "name": "[concat(parameters('asaInstanceName'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.AppPlatform/Spring', parameters('asaInstanceName'))]"
+      ],
+      "properties": {
+        "generation": "Gen1"
+      }
+    },
+    {
+      "type": "Microsoft.AppPlatform/Spring/devToolPortals",
+      "apiVersion": "2023-05-01-preview",
+      "name": "[concat(parameters('asaInstanceName'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.AppPlatform/Spring', parameters('asaInstanceName'))]"
+      ],
+      "properties": {
+        "public": false,
+        "features": {
+          "applicationAccelerator": {
+            "state": "Enabled"
+          },
+          "applicationLiveView": {
+            "state": "Enabled"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.AppPlatform/Spring/gateways",
+      "apiVersion": "2023-05-01-preview",
+      "name": "[concat(parameters('asaInstanceName'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.AppPlatform/Spring', parameters('asaInstanceName'))]"
+      ],
+      "sku": {
+        "name": "E0",
+        "tier": "Enterprise",
+        "capacity": 2
+      },
+      "properties": {
+        "public": false,
+        "httpsOnly": false,
+        "resourceRequests": {
+          "cpu": "1",
+          "memory": "2Gi"
+        },
+        "clientAuth": {
+          "certificateVerification": "Disabled"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.AppPlatform/Spring/serviceRegistries",
+      "apiVersion": "2023-05-01-preview",
+      "name": "[concat(parameters('asaInstanceName'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.AppPlatform/Spring', parameters('asaInstanceName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.AppPlatform/Spring/apiPortals",
+      "apiVersion": "2023-05-01-preview",
+      "name": "[concat(parameters('asaInstanceName'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.AppPlatform/Spring', parameters('asaInstanceName'))]",
+        "[resourceId('Microsoft.AppPlatform/Spring/gateways', parameters('asaInstanceName'), 'default')]"
+      ],
+      "sku": {
+        "name": "E0",
+        "tier": "Enterprise",
+        "capacity": 1
+      },
+      "properties": {
+        "public": false,
+        "httpsOnly": false,
+        "gatewayIds": [
+          "[resourceId('Microsoft.AppPlatform/Spring/gateways', parameters('asaInstanceName'), 'default')]"
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+      "name": "[parameters('userAssignedManagedIdentityName')]",
+      "apiVersion": "2023-01-31",
+      "location": "[parameters('location')]"
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[variables('name_roleAssignmentName')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName'))]",
+        "[resourceId('Microsoft.AppPlatform/Spring', parameters('asaInstanceName'))]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[variables('const_ownerRole')]",
+        "principalId": "[reference(variables('ref_identityId')).principalId]",
+        "principalType": "ServicePrincipal",
+        "scope": "[resourceGroup().id]"
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deploymentScripts",
+      "apiVersion": "2020-10-01",
+      "name": "[variables('const_checkingBuilderStateDeploymentName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Authorization/roleAssignments', variables('name_roleAssignmentName'))]",
+        "[resourceId('Microsoft.AppPlatform/Spring/apps/deployments', parameters('asaInstanceName'), parameters('appName'), 'default')]"
+      ],
+      "kind": "AzurePowerShell",
+      "identity": {
+        "type": "UserAssigned",
+        "userAssignedIdentities": {
+          "[format('{0}', resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')))]": {}
+        }
+      },
+      "properties": {
+        "azPowerShellVersion": "9.7",
+        "primaryScriptUri": "[uri(variables('const_scriptLocation'), variables('const_checkScriptName'))]",
+        "environmentVariables": [
+          {
+            "name": "SUBSCRIPTION_ID",
+            "value": "[subscription().subscriptionId]"
+          },
+          {
+            "name": "RESOURCE_GROUP",
+            "value": "[resourceGroup().name]"
+          },
+          {
+            "name": "ASA_SERVICE_NAME",
+            "value": "[parameters('asaInstanceName')]"
+          }
+        ],
+        "cleanupPreference": "OnSuccess",
+        "retentionInterval": "P1D"
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deploymentScripts",
+      "apiVersion": "2020-10-01",
+      "name": "[variables('name_deploymentScriptName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deploymentScripts', variables('const_checkingBuilderStateDeploymentName'))]",
+        "[resourceId('Microsoft.Authorization/roleAssignments', variables('name_roleAssignmentName'))]",
+        "[resourceId('Microsoft.AppPlatform/Spring/apps/deployments', parameters('asaInstanceName'), parameters('appName'), 'default')]"
+      ],
+      "kind": "AzureCLI",
+      "identity": {
+        "type": "UserAssigned",
+        "userAssignedIdentities": {
+          "[format('{0}', resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')))]": {}
+        }
+      },
+      "properties": {
+        "AzCliVersion": "2.41.0",
+        "primaryScriptUri": "[uri(variables('const_scriptLocation'), variables('const_uploadScriptName'))]",
+        "environmentVariables": [
+          {
+            "name": "SUBSCRIPTION_ID",
+            "value": "[subscription().subscriptionId]"
+          },
+          {
+            "name": "RESOURCE_GROUP",
+            "value": "[resourceGroup().name]"
+          },
+          {
+            "name": "ASA_SERVICE_NAME",
+            "value": "[parameters('asaInstanceName')]"
+          }
+        ],
+        "cleanupPreference": "OnSuccess",
+        "retentionInterval": "P1D"
+      }
+    },
+    {
+      "type": "Microsoft.AppPlatform/Spring/apps/deployments",
+      "apiVersion": "2023-05-01-preview",
+      "name": "[format('{0}/{1}/{2}', parameters('asaInstanceName'), parameters('appName'), 'default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.AppPlatform/Spring/apps', parameters('asaInstanceName'), parameters('appName'))]"
+      ],
+      "properties": {
+        "active": true,
+        "deploymentSettings": {
+          "resourceRequests": {
+            "cpu": "1",
+            "memory": "2Gi"
+          }
+        },
+        "source": {
+          "type": "BuildResult",
+          "buildResultId": "<default>"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.AppPlatform/Spring/buildServices/agentPools",
+      "apiVersion": "2023-05-01-preview",
+      "name": "[concat(parameters('asaInstanceName'), '/default/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.AppPlatform/Spring/buildServices', parameters('asaInstanceName'), 'default')]"
+      ],
+      "properties": {
+        "poolSize": {
+          "name": "S1"
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "name": {
+      "type": "string",
+      "value": "[parameters('appName')]"
+    },
+    "uri": {
+      "type": "string",
+      "value": "[format('https://{0}', reference(resourceId('Microsoft.AppPlatform/Spring/apps', parameters('asaInstanceName'), parameters('appName')), '2023-05-01-preview').url)]"
+    }
+  }
+}

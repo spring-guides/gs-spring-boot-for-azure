@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": { },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "[format('{0}--asa', deployment().name)]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "plan": {
+            "value": "enterprise"
+          },
+          "location": {
+            "value": "[resourceGroup().location]"
+          }
+        },
+        "templateLink": {
+          "relativePath": "azuredeploy.json",
+          "contentVersion":"1.0.0.0"
+        }
+      }
+    }
+  ]
+}
