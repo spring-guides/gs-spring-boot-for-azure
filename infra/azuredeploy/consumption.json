@@ -173,7 +173,7 @@
       "type": "string",
       "value": "[parameters('appName')]"
     },
-    "uri": {
+    "url": {
       "type": "string",
       "value": "[format('https://{0}', reference(resourceId('Microsoft.AppPlatform/Spring/apps', parameters('asaInstanceName'), parameters('appName')), '2023-05-01-preview').url)]"
     }
