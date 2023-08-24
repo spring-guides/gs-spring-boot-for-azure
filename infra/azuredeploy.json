@@ -175,7 +175,7 @@
       "condition": "[equals(parameters('plan'), 'consumption')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
-      "name": "[format('{0}--ard2', deployment().name)]",
+      "name": "[format('{0}--{1}', deployment().name, parameters('plan'))]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -208,7 +208,7 @@
       "condition": "[equals(parameters('plan'), 'standard')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
-      "name": "[format('{0}--ard', deployment().name)]",
+      "name": "[format('{0}--{1}', deployment().name, parameters('plan'))]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -241,7 +241,7 @@
       "condition": "[equals(parameters('plan'), 'enterprise')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
-      "name": "[format('{0}--ent', deployment().name)]",
+      "name": "[format('{0}--{1}', deployment().name, parameters('plan'))]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -270,5 +270,15 @@
         }
       }
     }
-  ]
+  ],
+  "outputs": {
+    "name": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Resources/deployments', format('{0}--{1}', deployment().name, parameters('plan'))), '2022-09-01').outputs.name.value]"
+    },
+    "url": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Resources/deployments', format('{0}--{1}', deployment().name, parameters('plan'))), '2022-09-01').outputs.url.value]"
+    }
+  }
 }

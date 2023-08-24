@@ -3,6 +3,8 @@
 :source-highlighter: prettify
 :project_id: gs-spring-boot-for-azure
 
+Before delving into the step-by-step execution of the application, you can simply click the Deploy to Azure button. This will instantly deploy the app to Azure Spring Apps.
+
 |===
 |Deploy to Azure Spring Apps |
 |Consumption plan

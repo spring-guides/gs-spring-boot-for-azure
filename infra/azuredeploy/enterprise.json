@@ -324,7 +324,7 @@
     },
     "url": {
       "type": "string",
-      "value": "[format('https://{0}', reference(resourceId('Microsoft.AppPlatform/Spring/apps', parameters('asaInstanceName'), parameters('appName')), '2023-05-01-preview').url)]"
+      "value": "[reference(resourceId('Microsoft.AppPlatform/Spring/apps', parameters('asaInstanceName'), parameters('appName')), '2023-05-01-preview').url]"
     }
   }
 }
