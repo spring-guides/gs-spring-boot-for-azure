@@ -64,3 +64,5 @@ module springAppsStandard 'modules/springapps/springappsStandard.bicep' = if (pl
   }
 }
 
+output AZURE_RESOURCE_GROUP string = rg.name
+
